@@ -1,0 +1,25 @@
+<!-- games/grid.html -->
+<div id="grid-game" class="game-container">
+  <h2>Multiplier Grid</h2>
+  <p>
+    Place your bet, start the round, then click one tile to reveal your
+    multiplier!
+  </p>
+
+  <div class="controls">
+    <div class="control-group">
+      <label for="grid-bet-amount">Bet:</label>
+      <input type="number" id="grid-bet-amount" min="1" value="10" />
+    </div>
+    <button id="grid-start-button">Start Round</button>
+    <!-- Result div removed from here -->
+  </div>
+
+  <div id="multiplier-grid-container">
+    <!-- Grid buttons will be generated here by JS -->
+    <!-- Initial placeholder message moved to JS resetGrid function -->
+  </div>
+
+  <!-- Result div moved here, after the grid container -->
+  <div class="result info" id="grid-result">Place bet and start round.</div>
+</div>

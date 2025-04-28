@@ -891,6 +891,166 @@ select:focus {
   margin-bottom: 10px;
 }
 
+/* --- Add this animation definition if it's not already global --- */
+@keyframes revealAnim {
+  from {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* --- Multiplier Grid Game (Modified Styles) --- */
+#multiplier-grid-container {
+  display: grid;
+  /* --- CHANGED: Match Mines --- */
+  grid-template-columns: repeat(5, 45px); /* 5 columns, 45px each */
+  gap: 5px;
+  width: auto; /* Let grid content determine width */
+  max-width: 245px; /* 5 * 45px + 4 * 5px = 245px */
+  height: auto; /* Let grid content determine height */
+  margin: 20px auto;
+  padding: 5px;
+  justify-content: center; /* Center the grid items */
+}
+
+.grid-button {
+  /* --- CHANGED: Match Mines --- */
+  width: 45px;
+  height: 45px;
+  background-color: #ccd0d5; /* Default gray like mine-cell */
+  border: 1px solid #adb5bd; /* Border like mine-cell */
+  border-radius: 4px;
+  font-size: 1em; /* Adjusted for multiplier text (e.g., "1.5x") */
+  font-weight: bold;
+  color: transparent; /* Hide text initially */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease, opacity 0.2s ease; /* Added opacity transition */
+  position: relative;
+  user-select: none;
+  opacity: 1; /* Start fully opaque */
+}
+
+.grid-button.active:hover {
+  /* --- CHANGED: Match Mines --- */
+  background-color: #b4bbc1; /* Hover gray like mine-cell */
+  transform: scale(1.05); /* Add scale effect */
+}
+.grid-button.active:active {
+  /* --- Keep existing active state or remove if scale is enough --- */
+  transform: scale(0.98); /* Slightly different scale on active click */
+}
+
+.grid-button.revealed {
+  /* --- CHANGED: Style for non-clicked revealed buttons --- */
+  background-color: #e9ecef; /* Revealed gray like mine-cell */
+  color: #333; /* Show multiplier text */
+  border-color: #ced4da; /* Revealed border like mine-cell */
+  cursor: default;
+  /* Opacity is set by JS in revealAll */
+  animation: revealAnim 0.3s ease-out; /* Add reveal animation */
+}
+
+.grid-button.clicked {
+  /* --- CHANGED: Style for the SPECIFIC clicked button (like a found gem) --- */
+  background-color: #c3e6cb; /* Greenish background like revealed gem */
+  color: var(--green-color); /* Green text */
+  border-color: #b1dfbb; /* Greenish border */
+  /* Removed yellow box-shadow */
+  font-weight: bold; /* Ensure boldness */
+  opacity: 1 !important; /* Ensure clicked is fully opaque */
+  /* Animation is already applied by .revealed */
+}
+
+/* Ensure controls are spaced (Keep existing) */
+#grid-game .controls {
+  margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+/* --- Red or Black Game --- */
+#redblack-card-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px; /* Ensure space for the card */
+  margin: 1.5rem 0;
+  perspective: 1000px; /* For 3D flip effect */
+}
+
+#redblack-card {
+  width: 70px; /* Adjust size as needed */
+  height: 100px;
+  font-size: 2rem;
+  position: relative; /* Needed for flip */
+  transform-style: preserve-3d; /* Enable 3D space */
+  transition: transform 0.6s; /* Flip transition */
+  /* Reuse existing .card styles */
+}
+
+/* Add flip animation class */
+#redblack-card.flipping {
+  transform: rotateY(180deg);
+}
+
+/* Styles for front/back pseudo-elements if needed, but changing content/class is simpler */
+
+#redblack-stats {
+  background-color: #f7f8fa;
+  padding: 0.7rem;
+  border-radius: 4px;
+  border: 1px solid #e9ebee;
+  font-size: 0.95rem;
+}
+#redblack-stats span span {
+  /* Target the value spans */
+  color: var(--primary-color);
+  font-weight: bold;
+}
+#redblack-potential-winnings {
+  color: var(--green-color) !important; /* Make potential winnings green */
+}
+
+/* Style choice buttons */
+#redblack-choice-buttons button {
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+  margin: 0 5px;
+}
+#redblack-choice-buttons button.red {
+  background-color: var(--red-color);
+  color: white;
+}
+#redblack-choice-buttons button.red:hover:not(:disabled) {
+  background-color: #c82333;
+}
+#redblack-choice-buttons button.black {
+  background-color: #343a40; /* Dark gray/black */
+  color: white;
+}
+#redblack-choice-buttons button.black:hover:not(:disabled) {
+  background-color: #23272b;
+}
+
+/* Style cashout button */
+#redblack-cashout-button {
+  background-color: var(--accent-color);
+  color: #333;
+}
+#redblack-cashout-button:hover:not(:disabled) {
+  background-color: #e0a800;
+}
+
 /* --- Footer --- */
 footer {
   background-color: var(--light-color);

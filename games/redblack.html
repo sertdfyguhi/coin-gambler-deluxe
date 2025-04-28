@@ -1,0 +1,52 @@
+<!-- games/redblack.html -->
+<div id="redblack-game" class="game-container">
+  <h2>Red or Black</h2>
+  <p>
+    Bet on whether the next card drawn will be Red (♥♦) or Black (♣♠). Correct
+    guesses increase the multiplier (2<sup>streak</sup>). Cash out anytime, but
+    guess wrong and lose the bet!
+  </p>
+
+  <div class="controls">
+    <div class="control-group">
+      <label for="redblack-bet">Bet:</label>
+      <input type="number" id="redblack-bet" min="1" value="10" />
+    </div>
+    <button id="redblack-start-button">Start Round</button>
+    <!-- Choice buttons shown during play -->
+    <div id="redblack-choice-buttons" style="display: none">
+      <button id="redblack-red-button" class="choice-button red">
+        Choose Red
+      </button>
+      <button id="redblack-black-button" class="choice-button black">
+        Choose Black
+      </button>
+    </div>
+    <!-- Cashout button shown after a correct guess -->
+    <button id="redblack-cashout-button" style="display: none">Cash Out</button>
+  </div>
+
+  <!-- Card Display Area -->
+  <div id="redblack-card-area">
+    <div id="redblack-card" class="card hidden">?</div>
+    <!-- Start with hidden card -->
+  </div>
+
+  <!-- Game Stats -->
+  <div
+    id="redblack-stats"
+    style="text-align: center; margin-top: 1rem; font-weight: bold"
+  >
+    <span>Streak: <span id="redblack-streak">0</span> | </span>
+    <span>Multiplier: <span id="redblack-multiplier">1.00</span>x | </span>
+    <span
+      >Potential Winnings:
+      <span id="redblack-potential-winnings">0</span> Coins</span
+    >
+  </div>
+
+  <!-- Result Message -->
+  <div class="result info" id="redblack-result">
+    Place your bet and start the round.
+  </div>
+</div>
