@@ -5,6 +5,8 @@
   let rbChoiceButtonsDiv;
   let rbRedButton;
   let rbBlackButton;
+  let rbDecisionButtonsDiv; // Changed from rbCashOutButton
+  let rbContinueButton; // Added
   let rbCashOutButton;
   let rbCardArea;
   let rbCardElement;
@@ -64,11 +66,9 @@
   // --- Rendering ---
   const renderRedBlackCard = (card, hidden = true) => {
     if (!rbCardElement) return;
-
-    // Reset classes and styles related to flipping/content first
     rbCardElement.classList.remove("flipping", "red", "black", "hidden");
-    rbCardElement.style.transform = ""; // Reset flip
-    rbCardElement.textContent = ""; // Clear content
+    rbCardElement.style.transform = "";
+    rbCardElement.textContent = "";
 
     if (hidden) {
       rbCardElement.classList.add("hidden");
@@ -76,33 +76,28 @@
     } else if (card) {
       rbCardElement.textContent = `${card.rank}${card.suit}`;
       const color = getCardColor(card);
-      rbCardElement.classList.add(color); // Add 'red' or 'black' class
+      rbCardElement.classList.add(color);
     }
   };
 
   const flipCard = card => {
     if (!rbCardElement || !card) return;
-
-    // Add flipping class to trigger animation
     rbCardElement.classList.add("flipping");
-
-    // Wait for the first half of the flip, then change content
     setTimeout(() => {
-      renderRedBlackCard(card, false); // Render revealed card content
-    }, 300); // Half of the 0.6s transition
+      renderRedBlackCard(card, false);
+    }, 300);
   };
 
   // --- Game Logic ---
   const calculateMultiplier = streak => {
     if (streak <= 0) return 1.0;
-    return (
-      Math.round((1 / Math.pow(1 / 2, streak) + Number.EPSILON) * 100) / 100
-    );
+    // Original formula: 1 / (0.5^n) is equivalent to 2^n
+    return Math.pow(2, streak) * 0.95;
   };
 
   const updateRedBlackStats = () => {
     rbCurrentMultiplier = calculateMultiplier(rbStreak);
-    rbPotentialWinnings = Math.floor(rbCurrentBet * rbCurrentMultiplier); // Winnings are based on initial bet * multiplier
+    rbPotentialWinnings = Math.floor(rbCurrentBet * rbCurrentMultiplier);
 
     if (rbStreakDisplay) rbStreakDisplay.textContent = rbStreak;
     if (rbMultiplierDisplay)
@@ -120,14 +115,14 @@
       return;
     }
     rbCurrentBet = betResult.amount;
-    rbStreak = 0; // Reset streak
-    rbPotentialWinnings = rbCurrentBet; // Initial potential is just the bet back
+    rbStreak = 0;
+    rbPotentialWinnings = rbCurrentBet;
 
     rbDeck = createDeck();
     shuffleDeck(rbDeck);
     rbDrawnCard = null;
 
-    rbGameState = "playing";
+    rbGameState = "playing"; // Start in playing state
     renderRedBlackCard(null, true); // Show hidden card back
     updateRedBlackStats();
     window.setResult(rbResultDisplay, "Choose Red or Black!", "info");
@@ -147,20 +142,20 @@
     rbDrawnCard = rbDeck.pop();
     const actualColor = getCardColor(rbDrawnCard);
 
-    // Flip the card visually
-    flipCard(rbDrawnCard);
-
-    // Disable choice buttons immediately after choice
+    // Disable choice buttons immediately
     rbRedButton.disabled = true;
     rbBlackButton.disabled = true;
 
-    // Wait for flip animation to mostly complete before showing result/next state
+    // Flip the card visually
+    flipCard(rbDrawnCard);
+
+    // Wait for flip animation
     setTimeout(() => {
       if (choice === actualColor) {
         // Correct guess
         rbStreak++;
         rbGameState = "revealed"; // State where player decides to continue or cash out
-        updateRedBlackStats();
+        updateRedBlackStats(); // Update stats *before* showing message
         window.setResult(
           rbResultDisplay,
           `Correct! Card was ${actualColor}. Streak: ${rbStreak}. Continue or Cash Out?`,
@@ -169,22 +164,37 @@
       } else {
         // Incorrect guess
         rbGameState = "betting"; // Game over, back to betting state
-        updateRedBlackStats(); // Update stats one last time (though winnings are lost)
+        updateRedBlackStats(); // Update stats (though winnings are lost)
         window.setResult(
           rbResultDisplay,
           `Wrong! Card was ${actualColor}. You lost your bet of ${rbCurrentBet} coins.`,
           "loss"
         );
-        rbCurrentBet = 0; // Reset bet as it's lost
+        rbCurrentBet = 0; // Reset bet
       }
       window.updateRedBlackControls(); // Update buttons for the new state
-    }, 700); // Slightly longer than flip animation
+    }, 700); // Wait for flip + a bit
   };
+
+  // --- NEW FUNCTION ---
+  const continueRedBlackRound = () => {
+    if (rbGameState !== "revealed") return;
+
+    rbGameState = "playing"; // Go back to the playing state
+    renderRedBlackCard(null, true); // Show hidden card back again
+    window.setResult(
+      rbResultDisplay,
+      "Choose Red or Black for the next card!",
+      "info"
+    );
+    window.updateRedBlackControls(); // Update UI for the playing state
+  };
+  // --- END NEW FUNCTION ---
 
   const cashOutRedBlack = () => {
     if (rbGameState !== "revealed") return;
 
-    window.awardWinnings(rbPotentialWinnings); // Award the calculated potential winnings
+    window.awardWinnings(rbPotentialWinnings);
     window.setResult(
       rbResultDisplay,
       `Cashed out ${rbPotentialWinnings} coins! (Multiplier: ${rbCurrentMultiplier.toFixed(
@@ -198,17 +208,19 @@
     rbStreak = 0;
     updateRedBlackStats(); // Reset stats display
     window.updateRedBlackControls();
-    // Optionally reset card view
-    // renderRedBlackCard(null, true);
+    // renderRedBlackCard(null, true); // Optionally reset card view immediately
   };
 
   // --- Control Updates & Reset ---
   window.updateRedBlackControls = () => {
+    // Add checks for new elements
     if (
       !rbStartButton ||
       !rbBetInput ||
       !rbChoiceButtonsDiv ||
+      !rbDecisionButtonsDiv ||
       !rbCashOutButton ||
+      !rbContinueButton ||
       !rbRedButton ||
       !rbBlackButton
     )
@@ -216,22 +228,23 @@
 
     const canBet = rbGameState === "betting";
     const canChoose = rbGameState === "playing";
-    const canCashOut = rbGameState === "revealed";
+    const canDecide = rbGameState === "revealed"; // New state check
 
     // Bet input and Start button
     rbBetInput.disabled = !canBet;
     rbStartButton.disabled = !canBet || window.currentCoins <= 0;
 
     // Choice buttons (Red/Black)
-    rbChoiceButtonsDiv.style.display =
-      canChoose || canCashOut ? "inline-block" : "none"; // Show if playing OR revealed (for continue)
-    rbRedButton.disabled = !(canChoose || canCashOut); // Only enabled in 'playing' state before choice
-    rbBlackButton.disabled = !(canChoose || canCashOut); // Only enabled in 'playing' state before choice
+    rbChoiceButtonsDiv.style.display = canChoose ? "inline-block" : "none"; // ONLY show when choosing
+    rbRedButton.disabled = !canChoose;
+    rbBlackButton.disabled = !canChoose;
 
-    // Cash Out button
-    rbCashOutButton.style.display = canCashOut ? "inline-block" : "none";
-    rbCashOutButton.disabled = !canCashOut;
-    if (canCashOut) {
+    // Decision buttons (Continue/Cash Out)
+    rbDecisionButtonsDiv.style.display = canDecide ? "inline-block" : "none"; // ONLY show when deciding
+    rbContinueButton.disabled = !canDecide;
+    rbCashOutButton.disabled = !canDecide;
+    if (canDecide) {
+      // Update cashout button text dynamically
       rbCashOutButton.textContent = `Cash Out (${rbPotentialWinnings} Coins)`;
     }
   };
@@ -239,7 +252,6 @@
   window.resetRedBlack = reason => {
     console.log(`Red or Black reset triggered by: ${reason}`);
 
-    // If game was active, bet is lost (already deducted by placeBet)
     if (rbGameState !== "betting" && rbCurrentBet > 0) {
       console.log(
         `Red or Black ended prematurely. Bet of ${rbCurrentBet} lost.`
@@ -250,15 +262,15 @@
     rbCurrentBet = 0;
     rbStreak = 0;
     rbDrawnCard = null;
-    if (rbCardElement) renderRedBlackCard(null, true); // Reset card view
-    updateRedBlackStats(); // Reset stats display
+    if (rbCardElement) renderRedBlackCard(null, true);
+    updateRedBlackStats();
     if (rbResultDisplay)
       window.setResult(
         rbResultDisplay,
         "Place your bet and start the round.",
         "info"
       );
-    window.updateRedBlackControls();
+    window.updateRedBlackControls(); // This will hide choice/decision buttons correctly
   };
 
   // --- Initialization ---
@@ -268,7 +280,9 @@
     rbChoiceButtonsDiv = document.getElementById("redblack-choice-buttons");
     rbRedButton = document.getElementById("redblack-red-button");
     rbBlackButton = document.getElementById("redblack-black-button");
-    rbCashOutButton = document.getElementById("redblack-cashout-button");
+    rbDecisionButtonsDiv = document.getElementById("redblack-decision-buttons"); // Get the div
+    rbContinueButton = document.getElementById("redblack-continue-button"); // Get continue button
+    rbCashOutButton = document.getElementById("redblack-cashout-button"); // Get cashout button
     rbCardArea = document.getElementById("redblack-card-area");
     rbCardElement = document.getElementById("redblack-card");
     rbStatsDiv = document.getElementById("redblack-stats");
@@ -279,10 +293,13 @@
     );
     rbResultDisplay = document.getElementById("redblack-result");
 
+    // Add checks for the new elements
     if (
       !rbStartButton ||
       !rbRedButton ||
       !rbBlackButton ||
+      !rbDecisionButtonsDiv ||
+      !rbContinueButton ||
       !rbCashOutButton ||
       !rbCardElement ||
       !rbResultDisplay
@@ -295,6 +312,7 @@
     rbStartButton.addEventListener("click", startRedBlackGame);
     rbRedButton.addEventListener("click", () => makeChoice("red"));
     rbBlackButton.addEventListener("click", () => makeChoice("black"));
+    rbContinueButton.addEventListener("click", continueRedBlackRound); // Add listener for continue
     rbCashOutButton.addEventListener("click", cashOutRedBlack);
 
     window.resetRedBlack("Initial load");

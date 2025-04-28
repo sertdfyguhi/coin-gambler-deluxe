@@ -1042,13 +1042,35 @@ select:focus {
   background-color: #23272b;
 }
 
+/* Style decision buttons group */
+#redblack-decision-buttons {
+  display: inline-block; /* Or flex, depending on layout needs */
+  vertical-align: middle; /* Align with other controls if needed */
+}
+#redblack-decision-buttons button {
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+  margin: 0 5px;
+}
+
+/* Style continue button (example: green) */
+#redblack-continue-button {
+  background-color: var(--green-color); /* Use your theme's green */
+  color: white;
+  border: none;
+}
+#redblack-continue-button:hover:not(:disabled) {
+  background-color: #218838; /* Darker green */
+}
+
 /* Style cashout button */
 #redblack-cashout-button {
-  background-color: var(--accent-color);
+  background-color: var(--accent-color); /* Use your theme's accent */
   color: #333;
+  border: none;
 }
 #redblack-cashout-button:hover:not(:disabled) {
-  background-color: #e0a800;
+  background-color: #e0a800; /* Darker accent */
 }
 
 /* --- Footer --- */

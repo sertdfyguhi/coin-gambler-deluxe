@@ -3,8 +3,8 @@
   <h2>Red or Black</h2>
   <p>
     Bet on whether the next card drawn will be Red (♥♦) or Black (♣♠). Correct
-    guesses increase the multiplier (2<sup>streak</sup>). Cash out anytime, but
-    guess wrong and lose the bet!
+    guesses increase the multiplier. Cash out anytime, but guess wrong and lose
+    the bet!
   </p>
 
   <div class="controls">
@@ -13,6 +13,7 @@
       <input type="number" id="redblack-bet" min="1" value="10" />
     </div>
     <button id="redblack-start-button">Start Round</button>
+
     <!-- Choice buttons shown during play -->
     <div id="redblack-choice-buttons" style="display: none">
       <button id="redblack-red-button" class="choice-button red">
@@ -22,8 +23,15 @@
         Choose Black
       </button>
     </div>
-    <!-- Cashout button shown after a correct guess -->
-    <button id="redblack-cashout-button" style="display: none">Cash Out</button>
+
+    <!-- Decision buttons shown after a correct guess -->
+    <div id="redblack-decision-buttons" style="display: none">
+      <button id="redblack-continue-button" class="continue-button">
+        Continue
+      </button>
+      <!-- Added -->
+      <button id="redblack-cashout-button">Cash Out</button>
+    </div>
   </div>
 
   <!-- Card Display Area -->
