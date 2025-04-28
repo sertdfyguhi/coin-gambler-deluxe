@@ -741,7 +741,7 @@ select:focus {
   font-weight: bold;
 }
 
-/* Chicken Cross Road v2 (Vertical Lanes) */
+/* Chicken Cross Road (Vertical Lanes) */
 #chicken-road-area {
   /* Replaces #chicken-game-area */
   background-color: #f0f2f5; /* Lighter background */
@@ -811,84 +811,6 @@ select:focus {
   align-items: center;
   font-size: 2.5rem; /* Large symbols */
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-/* --- Multiplier Wheel Game --- */
-#wheel-game {
-  text-align: center;
-}
-
-#wheel-container {
-  position: relative;
-  width: 300px; /* Adjust size as needed */
-  height: 300px;
-  margin: 30px auto;
-  padding: 0;
-  display: flex; /* Helps center labels if needed, though absolute is primary */
-  justify-content: center;
-  align-items: center;
-}
-
-#wheel-pointer {
-  position: absolute;
-  top: -10px; /* Position above the wheel */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 15px solid transparent; /* Triangle shape */
-  border-right: 15px solid transparent;
-  border-top: 20px solid #ff0000; /* Pointer color */
-  z-index: 10; /* Above the wheel */
-  font-size: 1.5em; /* Backup if border fails */
-  color: red; /* Backup */
-}
-
-#wheel {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  border: 5px solid #555;
-  background-color: #ccc; /* Fallback */
-  overflow: hidden; /* Hide parts of labels outside circle */
-  /* Conic gradient will be set by JS */
-  transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1); /* Spin animation */
-  transform-origin: center center;
-}
-
-.wheel-segment-label {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform-origin: 0 0; /* Rotate around the center */
-  /* Transform (rotate, translate, rotate back) set by JS */
-  color: white;
-  font-weight: bold;
-  font-size: 0.9em;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-  background-color: rgba(0, 0, 0, 0.2); /* Slight background for readability */
-  padding: 2px 4px;
-  border-radius: 3px;
-  text-align: center;
-  pointer-events: none; /* Don't interfere with clicks */
-}
-
-/* Add styles for wheel game controls if needed, similar to other games */
-#wheel-game .controls {
-  background-color: #f0f0f0;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  color: #333;
-}
-#wheel-game .bet-controls {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
 }
 
 /* --- Add this animation definition if it's not already global --- */
@@ -991,7 +913,7 @@ select:focus {
 #redblack-card {
   width: 70px; /* Adjust size as needed */
   height: 100px;
-  font-size: 2rem;
+  font-size: 1.75rem;
   position: relative; /* Needed for flip */
   transform-style: preserve-3d; /* Enable 3D space */
   transition: transform 0.6s; /* Flip transition */
