@@ -1,0 +1,903 @@
+/* --- Basic Reset & Body --- */
+:root {
+  --primary-color: #4a90e2;
+  --secondary-color: #42b72a;
+  --accent-color: #ffc107;
+  --dark-color: #1c1e21;
+  --light-color: #f0f2f5;
+  --text-color: #333;
+  --border-color: #ccd0d5;
+  --red-color: #dc3545;
+  --green-color: #28a745;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  line-height: 1.6;
+  background-color: var(--light-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 60px; /* Footer space */
+}
+
+/* --- Header --- */
+header {
+  background-color: var(--dark-color);
+  color: #fff;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  border-bottom: 3px solid var(--primary-color);
+}
+
+header h1 {
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.balance {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #f5f6f7;
+}
+.balance #coin-balance {
+  color: #ffd700; /* Gold */
+  margin-left: 5px;
+}
+
+.warning {
+  color: #ffcc00;
+  font-size: 0.9rem;
+  font-style: italic;
+  background-color: rgba(255, 0, 0, 0.1);
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* --- Navigation --- */
+nav#game-nav {
+  background-color: #e9ebee;
+  padding: 0.7rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Ensure nav is on top */
+  overflow-x: auto; /* Allow horizontal scrolling on small screens */
+  white-space: nowrap; /* Prevent wrapping */
+}
+
+nav#game-nav button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.1rem; /* Slightly reduced padding */
+  margin: 0.2rem 0.3rem;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 0.9rem; /* Slightly smaller font */
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  display: inline-block; /* Ensure buttons stay inline */
+}
+
+nav#game-nav button:hover:not(:disabled) {
+  background-color: #357abd;
+  transform: translateY(-1px);
+}
+nav#game-nav button:active:not(:disabled) {
+  transform: translateY(0px);
+}
+
+nav#game-nav button:disabled {
+  background-color: #a0aec0;
+  color: #e2e8f0;
+  cursor: not-allowed;
+}
+nav#game-nav button.active-nav {
+  background-color: #2c5282;
+  font-weight: bold;
+}
+
+/* --- Main Game Area --- */
+main#game-area {
+  flex-grow: 1;
+  padding: 1.5rem;
+  max-width: 850px; /* Wider for more complex games */
+  width: 95%;
+  margin: 1.5rem auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* Add min-height to prevent collapsing when empty */
+  min-height: 300px;
+}
+
+/* --- Game Container Styling (Loaded Dynamically) --- */
+.game-container {
+  /* display: none; */ /* Remove display: none; visibility controlled by presence in DOM */
+  padding: 1rem 0;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* No longer needed as only one game container is present at a time */
+/* .game-container.active {
+    display: block;
+} */
+
+.game-container h2 {
+  margin-bottom: 1.2rem;
+  color: var(--dark-color);
+  border-bottom: 2px solid #e9ebee;
+  padding-bottom: 0.6rem;
+  font-size: 1.5rem;
+}
+.game-container p {
+  margin-bottom: 1rem;
+  color: #4b4f56;
+  line-height: 1.5;
+}
+
+/* --- Controls Styling --- */
+.controls {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f7f8fa;
+  border-radius: 6px;
+  border: 1px solid #e9ebee;
+}
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap; /* Allow wrapping within groups */
+}
+
+.controls label {
+  font-weight: 600;
+  color: #4b4f56;
+  white-space: nowrap;
+}
+
+.controls input[type="number"],
+select {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  width: 90px;
+  font-size: 1rem;
+  text-align: right;
+}
+.controls input[type="number"]:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.controls button {
+  padding: 0.7rem 1.2rem;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.controls button:hover:not(:disabled) {
+  background-color: #36a420;
+}
+
+.controls button:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+/* --- Result Area --- */
+.result {
+  margin-top: 1rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  min-height: 45px;
+  font-weight: 500;
+  background-color: var(--light-color);
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.result.win {
+  background-color: #d4edda;
+  color: #155724;
+  border-color: #c3e6cb;
+}
+.result.loss {
+  background-color: #f8d7da;
+  color: #721c24;
+  border-color: #f5c6cb;
+}
+.result.info {
+  background-color: #e2e3e5;
+  color: #383d41;
+  border-color: #d6d8db;
+}
+.result.push {
+  background-color: #fff3cd;
+  color: #856404;
+  border-color: #ffeeba;
+} /* Yellowish for push */
+
+/* --- Game Specific Styles --- */
+
+/* Dice Slider */
+#dice-slider-container {
+  margin: 1rem 0;
+}
+#dice-slider {
+  width: 80%;
+  max-width: 400px;
+  cursor: pointer;
+}
+#dice-slider-value,
+#dice-chance,
+#dice-payout {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+#dice-payout {
+  color: var(--secondary-color);
+}
+
+/* Roulette Table */
+#roulette-table-container {
+  margin: 1.5rem auto;
+  padding: 10px;
+  background-color: #2a5a2a; /* Green felt */
+  border-radius: 10px;
+  max-width: 700px;
+  overflow-x: auto; /* Scroll if needed */
+}
+#roulette-table {
+  display: grid;
+  grid-template-columns: auto repeat(12, 1fr); /* 0 column + 12 number columns */
+  gap: 2px;
+  color: white;
+  font-size: 0.8rem;
+}
+.roulette-cell {
+  padding: 8px 4px;
+  text-align: center;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  min-width: 35px;
+  min-height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* For chip placement */
+  user-select: none;
+  transition: background-color 0.2s;
+}
+.roulette-cell:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.roulette-number {
+  background-color: #444;
+}
+.roulette-number.red {
+  background-color: var(--red-color);
+}
+.roulette-number.black {
+  background-color: #222;
+}
+.roulette-zero {
+  background-color: var(--green-color);
+  grid-row: span 3;
+} /* 0 spans 3 rows */
+
+.roulette-outside {
+  background-color: #3a7a3a;
+  font-weight: bold;
+}
+.roulette-2to1 {
+  grid-column: span 1;
+} /* Column bets span 1 col */
+.roulette-dozen {
+  grid-column: span 4;
+} /* Dozen bets span 4 cols */
+.roulette-half {
+  grid-column: span 6;
+} /* Half bets span 6 cols */
+
+#roulette-wheel-result {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  text-align: center;
+}
+#roulette-current-bets {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+.roulette-chip {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: #ffeb3b; /* Yellow chip */
+  border-radius: 50%;
+  border: 1px solid #333;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.6rem;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none; /* Don't interfere with clicks */
+  opacity: 0.8;
+}
+
+/* Crash */
+#crash-game .controls button#crash-cash-out {
+  background-color: var(--accent-color);
+  color: #333;
+}
+#crash-game .controls button#crash-cash-out:hover:not(:disabled) {
+  background-color: #e0a800;
+}
+#crash-game .game-state {
+  margin: 1.5rem 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 1.2rem;
+  background-color: #e9ebee;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+#crash-multiplier {
+  color: var(--red-color);
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 2.5rem;
+  transition: color 0.1s ease;
+}
+#crash-multiplier.rising {
+  color: var(--green-color);
+}
+#crash-multiplier.crashed {
+  color: var(--red-color) !important;
+}
+
+/* Mines */
+#mines-game .controls button#mines-cash-out {
+  background-color: var(--accent-color);
+  color: #333;
+}
+#mines-game .controls button#mines-cash-out:hover:not(:disabled) {
+  background-color: #e0a800;
+}
+#mines-game .controls input#mines-count {
+  width: 60px;
+}
+#mines-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 45px);
+  gap: 5px;
+  margin: 1rem auto;
+  justify-content: center;
+  max-width: 245px;
+}
+.mine-cell {
+  width: 45px;
+  height: 45px;
+  background-color: #ccd0d5;
+  border: 1px solid #adb5bd;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
+  border-radius: 4px;
+  transition: background-color 0.2s, transform 0.1s;
+  user-select: none;
+}
+.mine-cell:not(.revealed):hover {
+  background-color: #b4bbc1;
+  transform: scale(1.05);
+}
+.mine-cell.revealed {
+  cursor: default;
+  background-color: #e9ecef;
+  border-color: #ced4da;
+}
+.mine-cell.revealed.gem {
+  background-color: #c3e6cb;
+  color: var(--green-color);
+  border-color: #b1dfbb;
+  animation: revealAnim 0.3s ease-out;
+}
+.mine-cell.revealed.mine {
+  background-color: #f5c6cb;
+  color: var(--red-color);
+  border-color: #eba3a3;
+  animation: revealAnim 0.3s ease-out;
+}
+@keyframes revealAnim {
+  from {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+#mines-game .stats {
+  margin-top: 1rem;
+  font-weight: bold;
+  text-align: center;
+  background-color: #f7f8fa;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #e9ebee;
+}
+#mines-game .stats span {
+  margin: 0 10px;
+}
+#mines-current-payout,
+#mines-gems-found {
+  color: var(--primary-color);
+}
+
+/* Keno */
+#keno-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 5px;
+  max-width: 500px;
+  margin: 1.5rem auto;
+  padding: 1rem;
+  background-color: #f0f2f5;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+}
+.keno-number {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s, transform 0.1s;
+  user-select: none;
+}
+.keno-number:hover {
+  background-color: #e9ecef;
+  transform: scale(1.05);
+}
+.keno-number.selected {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: #357abd;
+  font-weight: bold;
+}
+.keno-number.drawn {
+  background-color: var(--accent-color);
+  color: #333;
+  border-color: #e0a800;
+  animation: bounceIn 0.5s ease;
+}
+.keno-number.hit {
+  background-color: var(--green-color);
+  color: white;
+  border-color: #1e7e34;
+  font-weight: bold;
+  animation: bounceIn 0.5s ease;
+}
+.keno-number.drawn.selected:not(.hit) {
+  opacity: 0.7;
+}
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+#keno-picks-info,
+#keno-draw-results {
+  margin-top: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+#keno-picks-info span,
+#keno-draw-results span {
+  font-weight: bold;
+  margin: 0 5px;
+}
+#keno-selected-count {
+  color: var(--primary-color);
+}
+#keno-hits-count {
+  color: var(--green-color);
+}
+
+/* Blackjack */
+.blackjack-area {
+  display: flex;
+  justify-content: space-around;
+  margin: 1.5rem 0;
+  min-height: 120px;
+}
+.hand-area {
+  width: 45%;
+  text-align: center;
+}
+.hand-area h3 {
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  min-height: 70px;
+}
+.card {
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  padding: 5px;
+  min-width: 45px;
+  background-color: white;
+  display: inline-block;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+.card.red {
+  color: var(--red-color);
+}
+.card.black {
+  color: var(--dark-color);
+}
+.card.hidden {
+  background-color: #bbb;
+  color: #bbb;
+} /* Hidden card style */
+.hand-total {
+  margin-top: 0.5rem;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+#blackjack-player-buttons button {
+  margin: 0 5px;
+}
+
+/* Plinko */
+/* Add styles for config controls if needed */
+/* --- Plinko Board --- */
+#plinko-board-container {
+  width: 90%;
+  max-width: 600px; /* Max width for the board area */
+  margin: 20px auto;
+  background-color: #2a2a30; /* Darker background for contrast */
+  border-radius: 8px;
+  padding: 15px 30px 5px 30px; /* Padding around board/slots */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: relative; /* Needed for absolute positioned ball */
+  box-sizing: border-box;
+}
+
+#plinko-board {
+  width: 100%; /* Take full width of container padding */
+  height: auto; /* Height determined by content/JS */
+  position: relative; /* CRUCIAL: Pegs positioned relative to this */
+  margin-bottom: 15px; /* Space between last peg row and slots */
+  box-sizing: border-box;
+  /* border: 1px dashed #555; */ /* Optional: for debugging layout */
+}
+
+.plinko-row {
+  /* REMOVE display: flex; */
+  /* REMOVE justify-content: space-around; */
+  /* REMOVE padding */
+  position: relative; /* Keep relative for potential future use, but pegs are absolute to #plinko-board now */
+  box-sizing: border-box;
+  /* Height is now mainly for spacing, set in JS or fixed */
+  height: 28px; /* Adjust this value to control vertical spacing between rows */
+  /* border-bottom: 1px dotted #444; */ /* Optional: visualize row bounds */
+}
+
+.plinko-peg {
+  width: 6px; /* Small pegs */
+  height: 6px;
+  background-color: #b0b0b0; /* Lighter grey */
+  border-radius: 50%;
+  position: absolute; /* Use absolute positioning relative to #plinko-board */
+  /* top & left will be set dynamically by JS */
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Center the peg on its calculated coordinate */
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* --- Slots --- */
+#plinko-slots {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 5px; /* Reduced space slightly */
+  padding: 0 2px; /* Minimal padding */
+  box-sizing: border-box;
+}
+
+.plinko-slot {
+  flex: 1 1 auto;
+  max-width: 60px;
+  min-width: 30px;
+  text-align: center;
+  padding: 8px 2px; /* Adjusted padding */
+  border: 1px solid #555;
+  border-radius: 4px; /* Slightly less rounded */
+  margin: 0 1px;
+  font-size: 0.75em; /* Smaller font */
+  font-weight: bold;
+  background-color: #404045; /* Slot background */
+  color: #ddd; /* Slot text color */
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+  cursor: default; /* Indicate non-interactive */
+}
+
+.plinko-slot.win {
+  background-color: var(--win-color);
+  border-color: var(--win-color);
+  color: white; /* White text on win */
+}
+
+/* --- Ball --- */
+.plinko-ball-instance {
+  width: 16px; /* Slightly larger ball */
+  height: 16px;
+  background-color: var(--red-color); /* Use CSS variable */
+  border-radius: 50%;
+  position: absolute;
+  /* top/left/transform set by JS */
+  transition: top 0.25s linear, left 0.25s ease-in-out;
+  z-index: 10;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5); /* Inner shadow for depth */
+}
+
+/* --- Controls --- */
+/* (Keep existing control styles) */
+.controls {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+.config-controls,
+.bet-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.config-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+  justify-content: center;
+}
+
+.config-controls label {
+  font-weight: bold;
+}
+
+/* Chicken Cross Road v2 (Vertical Lanes) */
+#chicken-road-area {
+  /* Replaces #chicken-game-area */
+  background-color: #f0f2f5; /* Lighter background */
+  padding: 0; /* Remove padding, lanes/start area handle spacing */
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  min-height: 150px; /* Adjust height as needed */
+  margin: 1.5rem 0;
+  display: flex; /* Use Flexbox for vertical layout */
+  flex-direction: row; /* Lay out items left-to-right */
+  border: 1px solid var(--border-color);
+}
+
+#chicken-start-area {
+  background-color: #c8e6c9; /* Green start */
+  flex: 0 0 60px; /* Fixed width, don't grow/shrink */
+  border-right: 2px dashed #777;
+  position: relative; /* For positioning icon */
+}
+
+.chicken-lane {
+  flex: 1 1 auto; /* Each lane takes equal space */
+  background-color: #e0e0e0; /* Grey road */
+  border-right: 1px dashed #aaa;
+  position: relative; /* For potential obstacles */
+}
+
+.chicken-lane:last-of-type {
+  /* No border on the last lane */
+  border-right: none;
+}
+
+#chicken-icon-v2 {
+  /* Updated ID */
+  font-size: 1.8rem;
+  position: absolute; /* Position controlled by JS */
+  /* JS sets top, left, transform */
+  transition: left 0.3s linear; /* Smooth horizontal movement */
+  z-index: 5;
+  line-height: 1; /* Prevent extra space */
+}
+
+/* Slots */
+#slots-game-area {
+  text-align: center;
+  margin: 1.5rem 0;
+}
+#slots-reels {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+}
+.slot-reel {
+  width: 70px;
+  height: 80px;
+  border: 1px solid #ccc;
+  background-color: white;
+  overflow: hidden; /* Hide non-visible symbols */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem; /* Large symbols */
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Multiplier Wheel Game --- */
+#wheel-game {
+  text-align: center;
+}
+
+#wheel-container {
+  position: relative;
+  width: 300px; /* Adjust size as needed */
+  height: 300px;
+  margin: 30px auto;
+  padding: 0;
+  display: flex; /* Helps center labels if needed, though absolute is primary */
+  justify-content: center;
+  align-items: center;
+}
+
+#wheel-pointer {
+  position: absolute;
+  top: -10px; /* Position above the wheel */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent; /* Triangle shape */
+  border-right: 15px solid transparent;
+  border-top: 20px solid #ff0000; /* Pointer color */
+  z-index: 10; /* Above the wheel */
+  font-size: 1.5em; /* Backup if border fails */
+  color: red; /* Backup */
+}
+
+#wheel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 5px solid #555;
+  background-color: #ccc; /* Fallback */
+  overflow: hidden; /* Hide parts of labels outside circle */
+  /* Conic gradient will be set by JS */
+  transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1); /* Spin animation */
+  transform-origin: center center;
+}
+
+.wheel-segment-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0 0; /* Rotate around the center */
+  /* Transform (rotate, translate, rotate back) set by JS */
+  color: white;
+  font-weight: bold;
+  font-size: 0.9em;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.2); /* Slight background for readability */
+  padding: 2px 4px;
+  border-radius: 3px;
+  text-align: center;
+  pointer-events: none; /* Don't interfere with clicks */
+}
+
+/* Add styles for wheel game controls if needed, similar to other games */
+#wheel-game .controls {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+#wheel-game .bet-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+/* --- Footer --- */
+footer {
+  background-color: var(--light-color);
+  color: #606770;
+  text-align: center;
+  padding: 1rem;
+  margin-top: auto;
+  font-size: 0.9rem;
+  border-top: 1px solid var(--border-color);
+}

@@ -1,0 +1,18 @@
+<div id="keno-game" class="game-container">
+    <h2>Keno</h2>
+    <p>Select up to 10 numbers from the grid (1-80). Then, start the draw to see if your numbers match the 20 randomly drawn winning numbers.</p>
+     <div class="controls">
+         <div class="control-group">
+            <label for="keno-bet">Bet:</label>
+            <input type="number" id="keno-bet" min="1" value="10">
+         </div>
+        <button id="keno-draw-button" disabled>Draw Numbers</button>
+        <button id="keno-clear-button">Clear Picks</button>
+    </div>
+     <div id="keno-picks-info">Selected: <span id="keno-selected-count">0</span> / 10</div>
+     <div id="keno-grid"></div>
+     <div id="keno-draw-results" style="display: none;">
+         Drawn Numbers: <span id="keno-drawn-list"></span> | Hits: <span id="keno-hits-count">0</span>
+     </div>
+    <div class="result info" id="keno-result">Select 1 to 10 numbers and place your bet.</div>
+ </div> 

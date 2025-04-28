@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coin Gambler Deluxe (Multi-File - v4)</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Coin Gambler Deluxe</h1>
+      <div class="balance">Coins: <span id="coin-balance">1000</span></div>
+      <p class="warning">
+        ⚠️ VIRTUAL coins only. NO REAL MONEY involved. Play responsibly!
+      </p>
+    </header>
+
+    <nav id="game-nav">
+      <button data-game="dice" class="active-nav">Dice</button>
+      <button data-game="roulette">Roulette</button>
+      <button data-game="blackjack">Blackjack</button>
+      <button data-game="slots">Slots</button>
+      <button data-game="plinko">Plinko</button>
+      <button data-game="chicken">Chicken</button>
+      <button data-game="crash">Crash</button>
+      <button data-game="mines">Mines</button>
+      <button data-game="keno">Keno</button>
+      <!-- <button data-game="wheel">Wheel</button> -->
+    </nav>
+
+    <main id="game-area">
+      <!-- Game content will be loaded here dynamically -->
+      <p style="text-align: center; padding: 2rem; color: #666">
+        Loading game...
+      </p>
+    </main>
+
+    <footer>
+      <p>
+        &copy; 2025 Coin Gambler Deluxe - Virtual Coins Only. Play Responsibly!
+      </p>
+    </footer>
+
+    <!-- Add script tags for the new JS files -->
+    <script defer src="/js/main.js"></script>
+    <script defer src="/js/dice.js"></script>
+    <script defer src="/js/roulette.js"></script>
+    <script defer src="/js/blackjack.js"></script>
+    <script defer src="/js/slots.js"></script>
+    <script defer src="/js/plinko.js"></script>
+    <script defer src="/js/chicken.js"></script>
+    <script defer src="/js/crash.js"></script>
+    <script defer src="/js/mines.js"></script>
+    <script defer src="/js/keno.js"></script>
+    <!-- <script defer src="/js/wheel.js"></script> -->
+  </body>
+</html>

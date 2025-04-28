@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plinko Madness</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Plinko Game</h1>
+
+        <div class="controls">
+             <!-- Configuration Controls -->
+             <div class="config-controls">
+                 <label for="plinko-rows-select">Rows:</label>
+                 <select id="plinko-rows-select">
+                     <option value="8">8</option>
+                     <option value="10">10</option>
+                     <option value="12">12</option>
+                     <option value="14">14</option>
+                     <option value="16" selected>16</option> <!-- Default -->
+                 </select>
+
+                 <label for="plinko-risk-select">Risk:</label>
+                 <select id="plinko-risk-select" style="width: auto !important">
+                     <option value="low">Low</option>
+                     <option value="medium" selected>Medium</option> <!-- Default -->
+                     <option value="high">High</option>
+                 </select>
+             </div>
+             <!-- End Configuration Controls -->
+
+
+             <div class="bet-controls">
+                 <label for="plinko-bet">Bet Amount:</label>
+                 <input type="number" id="plinko-bet" value="10" min="1">
+                 <button id="plinko-drop-button">Drop Ball</button>
+             </div>
+             <div id="plinko-result" class="result-box">Place your bet and drop the ball!</div>
+        </div>
+
+
+        <div id="plinko-board-container">
+            <!-- Peg rows will be generated here by JS -->
+            <div id="plinko-board"></div>
+            <!-- Slots will be generated here by JS -->
+            <div id="plinko-slots"></div>
+        </div>
+
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/plinko.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

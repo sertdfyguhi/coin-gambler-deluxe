@@ -1,0 +1,36 @@
+<div id="chicken-game" class="game-container">
+    <h2>Chicken Cross Road</h2>
+    <p>Help the chicken (🐔) cross the lanes. Each lane increases the multiplier, but also the risk! Cash out anytime.</p>
+     <div class="controls">
+         <div class="control-group">
+            <label for="chicken-bet">Bet:</label>
+            <input type="number" id="chicken-bet" min="1" value="10">
+         </div>
+         <div class="control-group">
+             <button id="chicken-start-button">Start Game</button>
+             <button id="chicken-advance-button" disabled>Advance Lane</button>
+             <button id="chicken-cashout-button" disabled>Cash Out</button>
+         </div>
+         <div class="control-group">
+             <span>Current Lane: <span id="chicken-current-lane">0</span></span>
+             <span>Multiplier: <span id="chicken-current-multiplier">1.0</span>x</span>
+             <span>Potential Winnings: <span id="chicken-potential-winnings">0</span></span>
+         </div>
+    </div>
+    <div id="chicken-road-area">
+        <div id="chicken-start-area"></div>
+        <div class="chicken-lane" data-lane="1"></div>
+        <div class="chicken-lane" data-lane="2"></div>
+        <div class="chicken-lane" data-lane="3"></div>
+        <div class="chicken-lane" data-lane="4"></div>
+        <div class="chicken-lane" data-lane="5"></div>
+        <div class="chicken-lane" data-lane="6"></div>
+        <div class="chicken-lane" data-lane="7"></div>
+        <div class="chicken-lane" data-lane="8"></div>
+        <div class="chicken-lane" data-lane="9"></div>
+        <div class="chicken-lane" data-lane="10"></div>
+        <div id="chicken-icon-v2">🐔</div>
+        <!-- Optional: Cars can be added here or via JS for visual effect -->
+    </div>
+    <div class="result info" id="chicken-result">Place your bet and click Start Game!</div>
+</div>

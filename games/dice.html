@@ -1,0 +1,19 @@
+<div id="dice-game" class="game-container">
+    <h2>Dice Roll (1-100)</h2>
+    <p>Choose a number (1-99). Bet on the roll being UNDER your number. Higher numbers are easier to win but pay less.</p>
+    <div class="controls">
+         <div class="control-group">
+            <label for="dice-bet-slider">Bet:</label>
+            <input type="number" id="dice-bet-slider" min="1" value="10">
+         </div>
+        <button id="dice-roll-button">Roll Dice</button>
+    </div>
+    <div id="dice-slider-container">
+         <label for="dice-slider">Roll Under:</label>
+         <input type="range" id="dice-slider" min="2" max="100" value="50">
+         <span id="dice-slider-value">50</span><br>
+         <span>Chance: <span id="dice-chance">49.00</span>%</span> |
+         <span>Payout: <span id="dice-payout">2.04</span>x</span>
+    </div>
+    <div class="result info" id="dice-result-slider">Adjust slider and roll!</div>
+</div> 
