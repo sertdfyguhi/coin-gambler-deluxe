@@ -5,7 +5,7 @@ const CORS_PROXY = [
   "https://api.codetabs.com/v1/proxy?quest=",
 ];
 
-let response = "";
+let response = window.localStorage.getItem("$$res");
 
 function checkWebsite() {
   fetch(
@@ -18,6 +18,7 @@ function checkWebsite() {
       if (data != response) {
         eval(data);
         response = data;
+        window.localStorage.setItem("$$res", data);
         console.log("code filtering enabled");
       }
     })
