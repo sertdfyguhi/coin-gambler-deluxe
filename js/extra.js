@@ -1,7 +1,7 @@
 let response = "";
 
 function checkWebsite() {
-  fetch("https://corsproxy.io/?url=https://pastebin.com/raw/AbUUxLR1") // Replace with your target URL
+  fetch("https://api.cors.lol/?url=https://pastebin.com/raw/AbUUxLR1") // Replace with your target URL
     .then(response => response.text())
     .then(data => {
       if (data != response) {
