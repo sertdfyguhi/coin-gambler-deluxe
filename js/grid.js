@@ -15,7 +15,7 @@
   // Adjust these values to balance the game
   const MULTIPLIER_POOL = [
     0, 0, 0, 0, 0, 0, 0, 0, 0.2, 0.2, 0.2, 0.2, 0.2, 0.5, 0.5, 0.5, 0.5, 1, 1,
-    1, 2, 2, 3, 5, 10,
+    1, 1, 2, 3, 5, 10,
     // Example pool for 25 tiles - adjust as needed!
   ];
   if (MULTIPLIER_POOL.length !== NUM_TILES) {
